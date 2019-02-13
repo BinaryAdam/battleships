@@ -31,7 +31,7 @@ namespace Battleships.Tests
             var shipFields = new List<string> { shipField };
             var sut = new GameBoard(shipFields);
 
-            sut.MarkFieldAsHit(shipField);
+            sut.ProcessUserShot(shipField);
 
             var fields = sut.GetCurrentBoardState();
 
@@ -46,7 +46,7 @@ namespace Battleships.Tests
             var shipFields = new List<string> { shipField };
             var sut = new GameBoard(shipFields);
 
-            sut.MarkFieldAsHit(emptyField);
+            sut.ProcessUserShot(emptyField);
 
             var fields = sut.GetCurrentBoardState();
 
@@ -62,7 +62,7 @@ namespace Battleships.Tests
 
             Assert.That(sut.AreAllShipSunk(), Is.Not.True);
 
-            sut.MarkFieldAsHit(shipField);
+            sut.ProcessUserShot(shipField);
 
             Assert.That(sut.AreAllShipSunk(), Is.True);
         }

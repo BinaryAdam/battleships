@@ -1,35 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Battleships.Interfaces;
 
 namespace Battleships.Models
 {
-    public class GameBoard
+    public class GameBoard: IGameBoard
     {
-        private Dictionary<string, FieldStatus> BoardFields;
+        private readonly Dictionary<string, FieldStatus> _boardFields;
+        
+        public GameBoard()
+        {
+            _boardFields = new Dictionary<string, FieldStatus>();
+        }
 
         public GameBoard(List<string> shipsPositions)
         {
-            BoardFields = new Dictionary<string, FieldStatus>();
+            _boardFields = new Dictionary<string, FieldStatus>();
             foreach (var position in shipsPositions)
             {
-                BoardFields.Add(position, FieldStatus.Ship);
+                _boardFields.Add(position, FieldStatus.Ship);
             }
         }
 
-        public Dictionary<string, FieldStatus> GetCurrentBoardState()
+        public BoardFields GetCurrentBoardState()
         {
-            return new Dictionary<string, FieldStatus>(BoardFields);
+            return new BoardFields(_boardFields);
         }
 
         public bool AreAllShipSunk()
         {
-            return !BoardFields.ContainsValue(FieldStatus.Ship);
+            return !_boardFields.ContainsValue(FieldStatus.Ship);
         }
 
-        public void MarkFieldAsHit(string fieldName)
+        public void ProcessUserShot(string fieldName)
         {
-            if (BoardFields.ContainsKey(fieldName))
+            if (_boardFields.ContainsKey(fieldName))
                 ProcessNotEmptyField(fieldName);
             else
                 MarkEmptyFieldAsHit(fieldName);
@@ -38,14 +44,14 @@ namespace Battleships.Models
 
         private void MarkEmptyFieldAsHit(string fieldName)
         {
-            BoardFields.Add(fieldName, FieldStatus.Shooted);
+            _boardFields.Add(fieldName, FieldStatus.Shooted);
         }
 
         private void ProcessNotEmptyField(string fieldName)
         {
-            var fieldStatus = BoardFields[fieldName];
+            var fieldStatus = _boardFields[fieldName];
             if (fieldStatus == FieldStatus.Ship)
-                BoardFields[fieldName] = FieldStatus.ShipHit;
+                _boardFields[fieldName] = FieldStatus.ShipHit;
         }
     }
 }

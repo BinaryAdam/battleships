@@ -9,6 +9,10 @@ namespace Tests
 {
     public class GameBoardGeneratorTests
     {
-        
+        [Test]
+        public void GenerateBoardGame_ShouldReturnValidShipFieldsCount()
+        {
+
+        }
     }
 }
