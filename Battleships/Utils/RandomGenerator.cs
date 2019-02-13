@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Battleships.Interfaces;
 
 namespace Battleships.Utils
 {
     public class RandomGenerator: IRandomGenerator
     {
-        private Random _random;
+        private readonly Random _random;
 
         public RandomGenerator()
         {
