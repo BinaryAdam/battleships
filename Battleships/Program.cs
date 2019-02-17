@@ -14,18 +14,13 @@ namespace Battleships
 
         static Program()
         {
+
             _container = new Container();
-            _container.Register<IContentWriter, ContentWriter>();
-            _container.Register<IGameBoardVisualizer, GameBoardVisualizer>();
-            _container.Register<IInputReader, InputReader>();
-            _container.Register<IInputValidator, InputValidator>();
-            _container.Register<IRandomGenerator, RandomGenerator>();
-            _container.Register<IShipGenerator, ShipGenerator>();
-            _container.Register<IShipsOnBoardGenerator, ShipsOnBoardGenerator>();
-            _container.Register<BattleshipsGame>();
+            SetUpDependencyInjection();
 
             _container.Verify();
         }
+
         static void Main(string[] args)
         {
             var shipsOnBoardGenerator = _container.GetInstance<IShipsOnBoardGenerator>();
@@ -34,12 +29,27 @@ namespace Battleships
             var boardSize = 10;
             var shipsSizes = new List<int> { 5, 4, 4 };
 
-            var initialShipPositions = shipsOnBoardGenerator.PlaceShipsOnBoard(boardSize, shipsSizes);
+            var initialShipPositions = 
+                shipsOnBoardGenerator.PlaceShipsOnBoard(boardSize, shipsSizes);
             var boardGame = new GameBoard(initialShipPositions);
 
             game.PlayGameToEnd(boardGame, boardSize);
 
             Console.ReadLine();
+        }
+
+
+
+        private static void SetUpDependencyInjection()
+        {
+            _container.Register<IContentWriter, ContentWriter>();
+            _container.Register<IGameBoardVisualizer, GameBoardVisualizer>();
+            _container.Register<IInputReader, InputReader>();
+            _container.Register<IInputValidator, InputValidator>();
+            _container.Register<IRandomGenerator, RandomGenerator>();
+            _container.Register<IShipGenerator, ShipGenerator>();
+            _container.Register<IShipsOnBoardGenerator, ShipsOnBoardGenerator>();
+            _container.Register<BattleshipsGame>();
         }
     }
 }
