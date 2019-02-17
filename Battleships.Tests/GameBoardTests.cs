@@ -25,7 +25,7 @@ namespace Battleships.Tests
         }
 
         [Test]
-        public void MarkFieldAsHit_ShipField_ShouldMarkFieldAsShipHit()
+        public void ProcessUserShot_WhenShipField_ShouldMarkFieldAsShipHit()
         {
             var shipField = "A1";
             var shipFields = new List<string> { shipField };
@@ -39,7 +39,7 @@ namespace Battleships.Tests
         }
 
         [Test]
-        public void MarkFieldAsHit_EmptyField_ShouldMarkFieldAsShooted()
+        public void ProcessUserShot_WhenEmptyField_ShouldMarkFieldAsShooted()
         {
             var shipField = "A1";
             var emptyField = "B2";
