@@ -1,16 +1,44 @@
-﻿using System;
+﻿using Battleships.Interfaces;
+using Battleships.Models;
+using Battleships.Utils;
+using SimpleInjector;
+using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Battleships
 {
     class Program
     {
+        static readonly Container _container;
+
+        static Program()
+        {
+            _container = new Container();
+            _container.Register<IContentWriter, ContentWriter>();
+            _container.Register<IGameBoardVisualizer, GameBoardVisualizer>();
+            _container.Register<IInputReader, InputReader>();
+            _container.Register<IInputValidator, InputValidator>();
+            _container.Register<IRandomGenerator, RandomGenerator>();
+            _container.Register<IShipGenerator, ShipGenerator>();
+            _container.Register<IShipsOnBoardGenerator, ShipsOnBoardGenerator>();
+            _container.Register<BattleshipsGame>();
+
+            _container.Verify();
+        }
         static void Main(string[] args)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine(" 1-3-5");
-            stringBuilder.AppendLine("A xo ");
-            Console.WriteLine(stringBuilder.ToString());
+            var shipsOnBoardGenerator = _container.GetInstance<IShipsOnBoardGenerator>();
+            var game = _container.GetInstance<BattleshipsGame>();
+
+            var boardSize = 10;
+            var shipsSizes = new List<int> { 5, 4, 4 };
+
+            var initialShipPositions = shipsOnBoardGenerator.PlaceShipsOnBoard(boardSize, shipsSizes);
+            var boardGame = new GameBoard(initialShipPositions);
+
+            game.PlayGameToEnd(boardGame, boardSize);
+
             Console.ReadLine();
         }
     }

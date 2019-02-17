@@ -34,6 +34,7 @@ namespace Battleships
         {
             var rowLetter = (char)('A' + rowNumber);
             _stringBuilder.Append(rowLetter);
+            _stringBuilder.Append(" ");
             for (int i = 0; i < _boardSize; i++)
             {
                 var fieldName = $"{rowLetter}{i + 1}";
@@ -61,12 +62,12 @@ namespace Battleships
 
         private void GenerateColumnHeader()
         {
-            _stringBuilder.Append(" ");
+            _stringBuilder.Append("  ");
             for (int i = 0; i < _boardSize; i++)
             {
                 _stringBuilder.Append($"{i + 1} ");
             }
-            _stringBuilder.AppendLine();
+            _stringBuilder.AppendLine(" x - miss o - hit");
         }
     }
 }
